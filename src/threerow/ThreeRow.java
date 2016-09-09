@@ -44,13 +44,12 @@ public class ThreeRow
 //            JOptionPane.showMessageDialog(null, "BOARD\n\n" + displayTwoDimensionalArray(grid));
             
             boolean positionOk = false;
-            String character = "";
             int positionX = 0;
             int positionY = 0;
             
             // keep asking for position if not free
             while (!positionOk)
-            {
+            {                
                 // prompt user to pick a position
                 positionX = Integer.parseInt(JOptionPane.showInputDialog(null, "BOARD\n\n" 
                                             + displayTwoDimensionalArray(grid) 
