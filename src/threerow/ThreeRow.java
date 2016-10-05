@@ -5,6 +5,7 @@
  */
 package threerow;
 
+import java.util.Random;
 import javax.swing.JOptionPane;
 
 /**
@@ -21,9 +22,11 @@ public class ThreeRow
     final static String GRID_CHARACTER_2        = "O";
     
     // minimum should be grid of 3 x 3
-    final static int ROWS       = 4;
-    final static int COLUMNS    = 5;
+    final static int ROWS       = 3;
+    final static int COLUMNS    = 3;
     final static int FULL_GRID  = ROWS * COLUMNS;
+    
+    final static int POSITIONS_RANDOMLY_OCCUPIED = 4;
 
     /**
      * @param args the command line arguments
@@ -35,10 +38,16 @@ public class ThreeRow
         boolean keepPlaying = true;  // flag
         boolean hasLost = false;  // flag
         
-        // get an 2D array
+        // get a 2D array
         String[][] grid = getTwoDimensionalArray(ROWS, COLUMNS);      
         
-        // play untill board is full or losing
+        // generate 4 different positions on grid randomly
+        preOccupyPositions(grid, POSITIONS_RANDOMLY_OCCUPIED);
+        
+        // update count
+        counter += POSITIONS_RANDOMLY_OCCUPIED;
+               
+        // play until board is full or losing
         while (keepPlaying)
         {
 //            JOptionPane.showMessageDialog(null, "BOARD\n\n" + displayTwoDimensionalArray(grid));
@@ -106,6 +115,50 @@ public class ThreeRow
             JOptionPane.showMessageDialog(null, "You WON\n\n" + displayTwoDimensionalArray(grid));     
         }
     }
+    
+    
+    /***************** fill out 4 positions randomly *******************/
+    public static void preOccupyPositions(String[][] someGrid, int positionAmounts)
+    {
+        // generate 4 different positions on grid randomly
+        for (int i = 0; i < positionAmounts; i++)
+        {
+            // flag
+            boolean keepGeneratingRandomPosition = true;
+            
+            while (keepGeneratingRandomPosition)
+            {                
+                int randomX = generateRandomInteger(COLUMNS);
+                int randomY = generateRandomInteger(ROWS);
+
+                if (isPositionAvailable(someGrid, randomX, randomY))
+                {
+                    // update flag
+                    keepGeneratingRandomPosition = false;                    
+                    
+                    // update grid
+                    updateGrid(someGrid, getCharacter(i), randomX, randomY);
+                }                           
+            }
+        }
+    }
+    
+    
+    /***************** generate random number *******************/
+    public static int generateRandomInteger(int limit)
+    {
+        int randomNumber;
+                
+        Random randomGenerator = new Random();
+        
+        // generate pseudorandom. zero included, limit excluded
+        randomNumber = randomGenerator.nextInt(limit);
+                
+        System.out.println("random: " + randomNumber);
+        
+        return randomNumber;
+    }
+    
     
     
     /***************** 1D array *******************/
